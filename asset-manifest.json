@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/dax_beauty/static/css/main.d1b05096.chunk.css",
+    "main.js": "/dax_beauty/static/js/main.c752e8f5.chunk.js",
+    "main.js.map": "/dax_beauty/static/js/main.c752e8f5.chunk.js.map",
+    "runtime-main.js": "/dax_beauty/static/js/runtime-main.b4a26c4c.js",
+    "runtime-main.js.map": "/dax_beauty/static/js/runtime-main.b4a26c4c.js.map",
+    "static/js/2.7bee7a29.chunk.js": "/dax_beauty/static/js/2.7bee7a29.chunk.js",
+    "static/js/2.7bee7a29.chunk.js.map": "/dax_beauty/static/js/2.7bee7a29.chunk.js.map",
+    "index.html": "/dax_beauty/index.html",
+    "precache-manifest.a9820ab7ed7e7d1b09f9e4514c6b9b24.js": "/dax_beauty/precache-manifest.a9820ab7ed7e7d1b09f9e4514c6b9b24.js",
+    "service-worker.js": "/dax_beauty/service-worker.js",
+    "static/css/main.d1b05096.chunk.css.map": "/dax_beauty/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.7bee7a29.chunk.js.LICENSE.txt": "/dax_beauty/static/js/2.7bee7a29.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/dax_beauty/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b4a26c4c.js",
+    "static/js/2.7bee7a29.chunk.js",
+    "static/css/main.d1b05096.chunk.css",
+    "static/js/main.c752e8f5.chunk.js"
+  ]
+}
