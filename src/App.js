@@ -1,26 +1,88 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import Header from './Components/Header';
+import TabList from './Components/TabList';
+import Body from './Components/Body';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state= {
+      activeTab: 1
+    }
+  }
+  changeTab = (id) => {
+    this.setState({
+      activeTab: id
+    })
+  }
+  lightbox = () => {
+    const lightbox = document.createElement('div');
+    lightbox.id = "lightbox";
+    document.body.appendChild(lightbox);
+    var images = document.querySelectorAll("img");
+    images.forEach(image => {
+      image.addEventListener("click", e=>{
+        lightbox.className = "active";
+        var focus = document.createElement("img");
+        focus.src = image.src;
+        focus.className = "lightboximg";
+        while(lightbox.firstChild){
+          lightbox.removeChild(lightbox.firstChild);
+        }
+        lightbox.appendChild(focus);
+      });
+    });
+    lightbox.addEventListener("click", e=>{
+      if(e.target !== e.currentTarget)
+        return;
+      lightbox.classList.remove("active");
+    });
+  }
+  render() {
+    const tabs = [
+      {
+        id: 1,
+        title: 'Home'
+      },
+      {
+        id: 2,
+        title: 'Color, Cut, & Style'
+      },
+      {
+        id: 3,
+        title: 'Weddings'
+      },
+      {
+        id: 4,
+        title: "Men's Cuts"
+      },
+      {
+        id: 5,
+        title: 'Kids'
+      },
+      {
+        id: 6,
+        title: 'Contact Us'
+      }
+    ]
+    return (
+      <div className="body">
+        <div className="header">
+          <Header/>
+          <div className="nav-bar">
+            <TabList tabs={tabs}
+            changeTab={this.changeTab}
+            activeTab={this.state.activeTab}/>
+          </div>
+        </div>
+        <div className="main-body">
+          <Body activeTab={this.state.activeTab}
+          lightbox={this.lightbox}/>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
