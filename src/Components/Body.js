@@ -5,6 +5,7 @@ import Colorcs from './Colorcs'
 import Weddings from './Weddings'
 import Mens from './Mens'
 import Kids from './Kids'
+import Reviews from './Reviews'
 import Contact from './Contact'
 
 export class Body extends Component {
@@ -20,6 +21,8 @@ export class Body extends Component {
       return <Mens lightbox={this.props.lightbox}/>
     else if (activeTab === 5)
       return <Kids lightbox={this.props.lightbox}/>
+    else if (activeTab === 6)
+      return <Reviews/>
     else
       return <Contact/>
   }

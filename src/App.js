@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import Header from './Components/Header';
 import TabList from './Components/TabList';
 import Body from './Components/Body';
+import { Helmet } from 'react-helmet';
 import './App.css';
 
 class App extends Component {
   constructor() {
     super();
     this.state= {
-      activeTab: 1
+      activeTab: 1,
     }
   }
   changeTab = (id) => {
@@ -63,11 +64,18 @@ class App extends Component {
       },
       {
         id: 6,
+        title: 'Reviews'
+      },
+      {
+        id: 7,
         title: 'Contact Us'
       }
     ]
     return (
       <div className="body">
+        <Helmet>
+          <title>Dax Beauty</title>
+        </Helmet>
         <div className="header">
           <Header/>
           <div className="nav-bar">
