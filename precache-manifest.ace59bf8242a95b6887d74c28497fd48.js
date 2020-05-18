@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "71af05952fba034e8c4f2c1f387b7e93",
+    "revision": "3c4d56e09e09a4bca10a4c79d295772a",
     "url": "/dax_beauty/index.html"
   },
   {
-    "revision": "13d1a0cf8aba35de53a0",
+    "revision": "08cc5fb82bbce9e8f6af",
     "url": "/dax_beauty/static/css/main.be9affd4.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dax_beauty/static/js/2.16542a77.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "13d1a0cf8aba35de53a0",
-    "url": "/dax_beauty/static/js/main.60e676f5.chunk.js"
+    "revision": "08cc5fb82bbce9e8f6af",
+    "url": "/dax_beauty/static/js/main.f679807d.chunk.js"
   },
   {
     "revision": "7ded85d215eb8ecf2265",

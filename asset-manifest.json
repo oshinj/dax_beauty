@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/dax_beauty/static/css/main.be9affd4.chunk.css",
-    "main.js": "/dax_beauty/static/js/main.60e676f5.chunk.js",
-    "main.js.map": "/dax_beauty/static/js/main.60e676f5.chunk.js.map",
+    "main.js": "/dax_beauty/static/js/main.f679807d.chunk.js",
+    "main.js.map": "/dax_beauty/static/js/main.f679807d.chunk.js.map",
     "runtime-main.js": "/dax_beauty/static/js/runtime-main.59f28fd2.js",
     "runtime-main.js.map": "/dax_beauty/static/js/runtime-main.59f28fd2.js.map",
     "static/js/2.16542a77.chunk.js": "/dax_beauty/static/js/2.16542a77.chunk.js",
     "static/js/2.16542a77.chunk.js.map": "/dax_beauty/static/js/2.16542a77.chunk.js.map",
     "index.html": "/dax_beauty/index.html",
-    "precache-manifest.9eb7121978d41db8e6961bd01904a443.js": "/dax_beauty/precache-manifest.9eb7121978d41db8e6961bd01904a443.js",
+    "precache-manifest.ace59bf8242a95b6887d74c28497fd48.js": "/dax_beauty/precache-manifest.ace59bf8242a95b6887d74c28497fd48.js",
     "service-worker.js": "/dax_beauty/service-worker.js",
     "static/css/main.be9affd4.chunk.css.map": "/dax_beauty/static/css/main.be9affd4.chunk.css.map",
     "static/js/2.16542a77.chunk.js.LICENSE.txt": "/dax_beauty/static/js/2.16542a77.chunk.js.LICENSE.txt",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.59f28fd2.js",
     "static/js/2.16542a77.chunk.js",
     "static/css/main.be9affd4.chunk.css",
-    "static/js/main.60e676f5.chunk.js"
+    "static/js/main.f679807d.chunk.js"
   ]
 }
