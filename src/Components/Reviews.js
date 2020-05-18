@@ -106,13 +106,13 @@ function Reviews(props) {
       <motion.div initial="hidden" animate="visible" variants={variants} className="form" onSubmit={handleSubmit}>
         <h2>Leave a Review</h2>
         <label>
-          What is your name?* <i class="error">{errors.nerr}</i><br/><input className="input" name="name" type="text" value={state.name} onChange={handleChange}/>
+          What is your name?* <i className="error">{errors.nerr}</i><br/><input className="input" name="name" type="text" value={state.name} onChange={handleChange}/>
         </label>
         <label>
-          Offer a short description of yourself: <i class="error">{errors.berr}</i><br/><input className="input" name="bio" type="text" value={state.bio} onChange={handleChange}/>
+          Offer a short description of yourself: <i className="error">{errors.berr}</i><br/><input className="input" name="bio" type="text" value={state.bio} onChange={handleChange}/>
         </label>
         <label>
-          What would you like to share?* <i class="error">{errors.rerr}</i><br/><textarea className="input" name="review" type="text" value={state.review} onChange={handleChange}/>
+          What would you like to share?* <i className="error">{errors.rerr}</i><br/><textarea className="input" name="review" type="text" value={state.review} onChange={handleChange}/>
         </label>
         <label>
           Would you like your name and review to be publicly viewable?<br/>
@@ -130,7 +130,7 @@ function Reviews(props) {
       <motion.div initial="hidden" animate="visible" variants={variants} className="reviews">
         <h2>Reviews</h2>
         {data.map((post, index) => (
-          <motion.div  initial="hidden" animate="visible" transition={{ duration: 0.5 }} variants={variants} className='post'>
+          <motion.div key={index} initial="hidden" animate="visible" transition={{ duration: 0.5 }} variants={variants} className='post'>
             <div className='post-header'>
               {post.date}
             </div>

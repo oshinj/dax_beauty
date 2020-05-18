@@ -68,6 +68,10 @@ class App extends Component {
       },
       {
         id: 7,
+        title: 'Some Fun (Movie Recs)'
+      },
+      {
+        id: 8,
         title: 'Contact Us'
       }
     ]
