@@ -150,6 +150,26 @@ a:hover {
   cursor: pointer;
 }
 
+.movgal {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16vw, auto));
+  grid-gap: 8px;
+  align-items: center;
+  justify-items: center;
+}
+
+.movg {
+  grid-row: span 2;
+  border-width: medium;
+  border-color: #201D1D;
+  border-style: groove;
+  cursor: pointer;
+  max-width: 12vw;
+}
+.movg:hover {
+  opacity: 0.5
+}
+
 #lightbox {
   position: fixed;
   z-index: 1000;
