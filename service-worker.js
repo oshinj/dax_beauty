@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/dax_beauty/precache-manifest.ace59bf8242a95b6887d74c28497fd48.js"
+  "/dax_beauty/precache-manifest.d418f35b299d21699464767c79a4d73b.js"
 );
 
 self.addEventListener('message', (event) => {
