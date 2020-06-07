@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import { SRLWrapper } from 'simple-react-lightbox'
 import Modal from 'react-awesome-modal'
 import Select from 'react-select'
 import config from '../config.js'
 
 const axios = require('axios');
-const firebase = require('firebase')
+const firebase = require('firebase');
+const d3 = require("d3");
 
 function Movies(props) {
   const [movVisible, setMovVisible] = useState(false)
@@ -43,6 +43,12 @@ function Movies(props) {
   const [showClass, setShowClass] = useState("loadMore")
 
   const [shouldRender, setShouldRender] = useState(true)
+
+  const [aNodes, setANodes] = useState([])
+
+  const [mNodes, setMNodes] = useState([])
+
+  const [links, setLinks] = useState([])
 
   const options = {
     caption: {
@@ -86,6 +92,9 @@ function Movies(props) {
 
     movie_ref.on('value', snapshot => {
       var tempArray = []
+      var tempActors = []
+      var tempMovies = []
+      var tempThing = []
       snapshot.forEach(function(child) {
         var movie = {
           id: child.val().id,
@@ -95,7 +104,8 @@ function Movies(props) {
           director: child.val().director,
           imdb: child.val().imdb,
           meta: child.val().meta,
-          lists: child.val().lists
+          lists: child.val().lists,
+          actors: child.val().actors
         }
         if (searchText !== "") {
           if (child.val().name.includes(searchText)) {
@@ -107,10 +117,110 @@ function Movies(props) {
             tempArray.push(movie)
           }
         }
+        if (movie['lists'].includes("Graph")) {
+          for (var actor in movie['actors']) {
+            var checker = {
+              name: movie['actors'][actor],
+              group: "actor"
+            }
+            if (!(tempActors.includes(checker))) {
+              tempActors.push({
+                name: movie['actors'][actor],
+                group: "actor"
+              })
+            }
+          }
+          tempMovies.push({
+            name: movie['name'],
+            group: "movie"
+          })
+          tempThing.push(movie.actors)
+        }
       })
       setMovies(tempArray)
+      setANodes(tempActors)
+      setMNodes(tempMovies)
+      var tempLinks = []
+      var movie2 = {}
+      for (movie2 in tempMovies) {
+        for (var actor in tempActors) {
+          if (tempThing[movie2].includes(tempActors[actor]['name'])) {
+            tempLinks.push({
+              source: tempMovies[movie2],
+              target: tempActors[actor]
+            })
+          }
+        }
+      }
+      setLinks(tempLinks)
     })
+    setShow(8)
 }, [shouldRender])
+
+  function chart(nodes) {
+    const width = 1920;
+    const height = 1080;
+
+    console.log(links)
+
+    const obj_links = links.map(d => Object.create(d));
+    const obj_nodes = nodes.map(d => Object.create(d));
+
+    const svg = d3.create("svg")
+      .attr("viewBox", [0, 0, width, height]);
+
+    const link = svg.append("g")
+        .attr("stroke", "#fff")
+        .attr("stroke-opacity", 1)
+        .selectAll("line")
+        .data(obj_links)
+        .join("line")
+        .attr("stroke-width", d => Math.sqrt(d.value));
+
+    // svg.append("defs")
+    //   .selectAll("pattern")
+    //   .append("pattern")
+    //   .attr('id', function(d, i) {
+    //     return d.name
+    //   })
+    //   .attr("width", 1)
+    //   .attr('height', 1)
+    //   .append("image")
+    //   .attr("xlink:href", function(d) {
+    //     return d.poster
+    //   })
+
+
+    const node = svg.append("g")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 1.5)
+      .selectAll("circle")
+      .data(obj_nodes)
+      .join("circle")
+      .attr("r", 20)
+      .attr("fill", d3.color("steelblue"))
+      // .attr("fill", function(d) {
+      //   return "url(#" + d.name + ")";
+      // });
+
+    const simulation = d3.forceSimulation(obj_nodes)
+      .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(200))
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(width / 2, height / 2));
+
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y)
+      node
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+    })
+
+    return svg.node()
+  }
 
   function openMovModal() {
     setMovVisible(true)
@@ -161,7 +271,7 @@ function Movies(props) {
     // lightMovie.lists.push(value)
     // movie_ref.child(lightMovie.id).update(lightMovie)
     // setShouldRender(!shouldRender)
-    console.log("Didn't figure this out either..." + value)
+    console.log("Didn't figure this out either... " + value)
   }
 
   function handleSubmitSearch(event) {
@@ -202,6 +312,7 @@ function Movies(props) {
           director: response.data.Director,
           imdb: response.data.imdbRating,
           meta: response.data.Metascore,
+          actors: response.data.Actors.split(", "),
           lists: ['All']
         }
         setMovies(movies => [...movies, movie])
@@ -240,6 +351,18 @@ function Movies(props) {
     // movie_ref.child(id).set(null)
     setPicVisible(false)
     console.log("Didn't get delete to work...sorry")
+  }
+
+  function generateLinks(mNodes, aNodes) {
+  }
+
+  function doTheThing() {
+    const elem = document.getElementById("myChart");
+    elem.appendChild(chart(mNodes.concat(aNodes)))
+  }
+
+  function printLinks() {
+    console.log(links)
   }
 
   return(
@@ -292,6 +415,11 @@ function Movies(props) {
           </div>
         </div>
       </Modal>
+      <button onClick={generateLinks}>Links</button>
+      <button onClick={doTheThing}>Do the Thing</button>
+      <button onClick={printLinks}>print</button>
+      <div id="myChart">
+      </div>
       <div className='footer'>
         <button className={showClass} onClick={loadMore}>Load More</button>
       </div>
