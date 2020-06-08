@@ -119,11 +119,7 @@ function Movies(props) {
         }
         if (movie['lists'].includes("Graph")) {
           for (var actor in movie['actors']) {
-            var checker = {
-              name: movie['actors'][actor],
-              group: "actor"
-            }
-            if (!(tempActors.includes(checker))) {
+            if (!(tempActors.some(e => e.name === movie['actors'][actor]))) {
               tempActors.push({
                 name: movie['actors'][actor],
                 group: "actor"
@@ -132,6 +128,7 @@ function Movies(props) {
           }
           tempMovies.push({
             name: movie['name'],
+            poster: movie['poster'],
             group: "movie"
           })
           tempThing.push(movie.actors)
@@ -146,8 +143,8 @@ function Movies(props) {
         for (var actor in tempActors) {
           if (tempThing[movie2].includes(tempActors[actor]['name'])) {
             tempLinks.push({
-              source: tempMovies[movie2],
-              target: tempActors[actor]
+              source: parseInt(movie2),
+              target: tempMovies.length + parseInt(actor)
             })
           }
         }
@@ -157,11 +154,32 @@ function Movies(props) {
     setShow(8)
 }, [shouldRender])
 
+  function drag(simulation) {
+    function dragStarted(d) {
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+    function dragEnded(d) {
+      if (!d3.event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+    return d3.drag()
+      .on("start", dragStarted)
+      .on("drag", dragged)
+      .on("end", dragEnded)
+  }
+
   function chart(nodes) {
     const width = 1920;
     const height = 1080;
-
-    console.log(links)
 
     const obj_links = links.map(d => Object.create(d));
     const obj_nodes = nodes.map(d => Object.create(d));
@@ -171,25 +189,39 @@ function Movies(props) {
 
     const link = svg.append("g")
         .attr("stroke", "#fff")
-        .attr("stroke-opacity", 1)
+        .attr("stroke-opacity", 0.6)
         .selectAll("line")
         .data(obj_links)
         .join("line")
         .attr("stroke-width", d => Math.sqrt(d.value));
 
-    // svg.append("defs")
-    //   .selectAll("pattern")
-    //   .append("pattern")
-    //   .attr('id', function(d, i) {
-    //     return d.name
-    //   })
-    //   .attr("width", 1)
-    //   .attr('height', 1)
-    //   .append("image")
-    //   .attr("xlink:href", function(d) {
-    //     return d.poster
-    //   })
+    var defs = svg.append('svg:defs')
 
+    obj_nodes.forEach(function(d, i) {
+      if (d.group === 'movie') {
+        defs.append('svg:pattern')
+          .attr('id', d.name)
+          .append('svg:image')
+          .attr('xlink:href', d.poster)
+        }
+    })
+
+    const fill = (node) => {
+      if (node.group === 'movie') // movies
+        return "url(#" + node.name + ")"
+      return d3.color("lightblue")
+    }
+
+    const radius = (node) => {
+      if (node.group === 'movie') // movies
+        return 100
+      return 50
+    }
+
+    const simulation = d3.forceSimulation(obj_nodes)
+      .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(200))
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(width / 2, height / 2));
 
     const node = svg.append("g")
       .attr("stroke", "#fff")
@@ -197,16 +229,11 @@ function Movies(props) {
       .selectAll("circle")
       .data(obj_nodes)
       .join("circle")
-      .attr("r", 20)
-      .attr("fill", d3.color("steelblue"))
-      // .attr("fill", function(d) {
-      //   return "url(#" + d.name + ")";
-      // });
-
-    const simulation = d3.forceSimulation(obj_nodes)
-      .force("link", d3.forceLink().links(links).id(d => { return d.index; }).distance(200))
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .attr("r", radius)
+      .style("fill", fill)
+      .attr("className", 'test')
+      .call(drag(simulation))
+      .text(function(d) { return d.name })
 
     simulation.on("tick", () => {
       link
@@ -352,17 +379,9 @@ function Movies(props) {
     setPicVisible(false)
     console.log("Didn't get delete to work...sorry")
   }
-
-  function generateLinks(mNodes, aNodes) {
-  }
-
   function doTheThing() {
-    const elem = document.getElementById("myChart");
+    const elem = document.getElementById("mysvg");
     elem.appendChild(chart(mNodes.concat(aNodes)))
-  }
-
-  function printLinks() {
-    console.log(links)
   }
 
   return(
@@ -415,10 +434,8 @@ function Movies(props) {
           </div>
         </div>
       </Modal>
-      <button onClick={generateLinks}>Links</button>
-      <button onClick={doTheThing}>Do the Thing</button>
-      <button onClick={printLinks}>print</button>
-      <div id="myChart">
+      <button onClick={doTheThing}>Display Graph</button>
+      <div id="mysvg">
       </div>
       <div className='footer'>
         <button className={showClass} onClick={loadMore}>Load More</button>
